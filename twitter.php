@@ -1,18 +1,18 @@
 <?php
-/* How to use:
- * Add the following line to the top 
- * of any page you wish to protect:
+/* 
+ * We will add the following line to the top 
+ * of any page to be protected:
  * 	twitterProtect();
- *
  *
  * CONFIG
  * $consumer_key - Twitter consumer key
  * $consumer_secret - Twitter consumer secret
  * $home - Where to send users upon login
  */
-$consumer_key = "IkBVpFzdKQ11wQO1lVyKQ";
-$consumer_secret = "0E4No7gaa79lbdP8jORljeYqgF6LIp6fqkvzL4qMXyg";
-$home = "/protected.php";
+
+$consumer_key = "lrEEhEQKwxEQovpju5oWUQ";
+$consumer_secret = "jY4PFaieh8PEExqa3goSWKVKfotU6WADNbEk0UgtaE";
+$home = "http://students.info.uaic.ro/~ionut.captari/protected.php";
 
 
 session_start();
@@ -27,17 +27,38 @@ function twitterLogin(){
 	if (isset($_GET['oauth_token'])) twitterCallback();
 	$twitterObj = new EpiTwitter($consumer_key, $consumer_secret);
 	$url = $twitterObj->getAuthorizationUrl();
-	// Customise your login link here
-	echo "<a href='$url'><img src=\"https://si0.twimg.com/images/dev/buttons/sign-in-with-twitter-l.png\" /></a>";
+
+	
+       echo "<div class='container' style='margin:50px 0px; padding:0px;text-align:center;'>
+                  <div class='page-header' style='width:900px;	margin:0px auto;text-align:left;padding:15px;border:1px dashed #333;background-color:#eee;'>
+            <h1> Your Twitter sentiments generated from your latest tweets - Proiect Infoiasi 2013<br/><br/>
+              <small>Proiect no.22 : MoSoR (Mood Social Recommender)</small><br/><br/>
+		<small>ROU:  Se doreste implementarea unei aplicatii Web care sa analizeze mesajele emise pe Twitter si Facebook pentru a pune la dispozitie recomandari de resurse in functie de starea de spirit a utilizatorului --aceasta poate fi stabilita dinamic de catre utilizator sau (bonus) va putea fi detectata automat.</small><br/><br/>
+		<small>EN:  We need to implement a web app which will analyze posts on Twitter and on Facebook and suggest recommendations according to users sentiments --  this can be dynamically set by the user or (bonus) will be automatically detected.</small><br/>
+              <small><br/>Resources: <a href='http://help.sentiment140.com/api'> http://help.sentiment140.com/api</a></small><br/>
+
+	     </h1>
+                 </div><br/><br/><center>
+                <div class='btn-group'>
+                <a class='btn' href='$url'><img src=\"https://si0.twimg.com/images/dev/buttons/sign-in-with-twitter-l.png\" /></a>
+                <a class='btn' href='protected.php'>   Status sentiment (Twitter API)</a>
+                </div></center>
+           </div>
+<br/><br/>
+  <center>
+  <a href='http://www.gnu.org/licenses/gpl.html' target='_blank'> 
+  <img src='http://www.gnu.org/graphics/gplv3-88x31.png' />
+  </a> 
+  <center>
+";
 }
 
 
-/* Call this function on every page you want protected.
+/* We'll call this function on every protected page.
  * If the user is not logged in, the logon link is displayed.
  */
 function twitterProtect(){
 	if ($_SESSION['logged_in']) return true;
-	// Customise error message here
 	echo "<p>You must be logged in to view this page!</p>";
 	// Display login link for convenience
 	twitterLogin();
@@ -47,7 +68,7 @@ function twitterProtect(){
 function postUser(){ print_r($userr);}
 /* Process login callback, this can be called from any page proteced by
  * twitterLogin(), the index.php page is recommended though.
- * Once logged in, you are forwarded to the homepage.
+ * Once logged in, we are forwarded to the homepage.
  */
 function twitterCallback(){
 	if ($_SESSION['logged_in']){ header ('Location: /'); exit(); }
@@ -74,7 +95,6 @@ function twitterCallback(){
 function twitterLogout(){
 	unset($_SESSION['logged_in']);
 	session_destroy();
-	// You can either leave the following here or put it on your logout page
 	echo "You have logged out, <a href=\"/\">click here</a> to return to the home page.";
 	exit();
 }
